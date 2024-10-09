@@ -1,0 +1,242 @@
+{
+    "jobs": [
+      {
+        "id": "job-001",
+        "title": "Senior Frontend Developer",
+        "company": {
+          "id": "comp-001",
+          "name": "TechFlow Solutions",
+          "logo": "/api/placeholder/48/48",
+          "location": "Remote (Worldwide)",
+          "employeeCount": "50-100",
+          "industry": "Software Development"
+        },
+        "type": "Full-time",
+        "mode": "Remote",
+        "level": "Senior",
+        "salary": {
+          "min": 120000,
+          "max": 150000,
+          "currency": "USD",
+          "period": "yearly"
+        },
+        "tags": ["React", "TypeScript", "Next.js", "Tailwind CSS"],
+        "description": "Join our dynamic team building cutting-edge web applications. We're seeking a Senior Frontend Developer to lead our user interface initiatives.",
+        "requirements": [
+          "5+ years of experience with React and modern JavaScript",
+          "Strong understanding of TypeScript and state management",
+          "Experience with Next.js and server-side rendering",
+          "Proficiency in responsive design and CSS-in-JS",
+          "Knowledge of testing frameworks (Jest, React Testing Library)"
+        ],
+        "benefits": [
+          "Competitive salary",
+          "Health insurance",
+          "Flexible hours",
+          "Home office stipend",
+          "Professional development budget"
+        ],
+        "postedDate": "2024-03-15T08:00:00Z",
+        "applicationDeadline": "2024-04-15T23:59:59Z",
+        "status": "active"
+      },
+      {
+        "id": "job-002",
+        "title": "Full Stack Developer",
+        "company": {
+          "id": "comp-002",
+          "name": "DataDrive Inc.",
+          "logo": "/api/placeholder/48/48",
+          "location": "Remote (US Only)",
+          "employeeCount": "100-250",
+          "industry": "Data Analytics"
+        },
+        "type": "Full-time",
+        "mode": "Remote",
+        "level": "Mid-Senior",
+        "salary": {
+          "min": 95000,
+          "max": 130000,
+          "currency": "USD",
+          "period": "yearly"
+        },
+        "tags": ["Node.js", "React", "PostgreSQL", "AWS"],
+        "description": "Looking for a Full Stack Developer to join our growing team. Help us build scalable solutions for data analytics.",
+        "requirements": [
+          "3+ years of full stack development experience",
+          "Strong knowledge of Node.js and React",
+          "Experience with SQL and NoSQL databases",
+          "AWS cloud infrastructure experience",
+          "Understanding of CI/CD pipelines"
+        ],
+        "benefits": [
+          "Stock options",
+          "401(k) matching",
+          "Unlimited PTO",
+          "Remote work stipend",
+          "Healthcare coverage"
+        ],
+        "postedDate": "2024-03-10T10:30:00Z",
+        "applicationDeadline": "2024-04-10T23:59:59Z",
+        "status": "active"
+      },
+      {
+        "id": "job-003",
+        "title": "UI/UX Designer",
+        "company": {
+          "id": "comp-003",
+          "name": "CreativeMinds Studio",
+          "logo": "/api/placeholder/48/48",
+          "location": "Remote (Europe)",
+          "employeeCount": "10-50",
+          "industry": "Design Agency"
+        },
+        "type": "Full-time",
+        "mode": "Remote",
+        "level": "Mid-level",
+        "salary": {
+          "min": 65000,
+          "max": 85000,
+          "currency": "EUR",
+          "period": "yearly"
+        },
+        "tags": ["Figma", "UI Design", "User Research", "Prototyping"],
+        "description": "Join our creative team to design beautiful and functional interfaces for our global clients.",
+        "requirements": [
+          "3+ years of UI/UX design experience",
+          "Strong portfolio showing web and mobile designs",
+          "Proficiency in Figma and design systems",
+          "Experience with user research and testing",
+          "Excellent communication skills"
+        ],
+        "benefits": [
+          "Flexible work hours",
+          "Healthcare package",
+          "Annual learning budget",
+          "Team retreats",
+          "Design tool subscriptions"
+        ],
+        "postedDate": "2024-03-12T09:15:00Z",
+        "applicationDeadline": "2024-04-12T23:59:59Z",
+        "status": "active"
+      },
+      {
+        "id": "job-004",
+        "title": "DevOps Engineer",
+        "company": {
+          "id": "comp-004",
+          "name": "CloudScale Systems",
+          "logo": "/api/placeholder/48/48",
+          "location": "Remote (Worldwide)",
+          "employeeCount": "250-500",
+          "industry": "Cloud Infrastructure"
+        },
+        "type": "Full-time",
+        "mode": "Remote",
+        "level": "Senior",
+        "salary": {
+          "min": 130000,
+          "max": 160000,
+          "currency": "USD",
+          "period": "yearly"
+        },
+        "tags": ["Kubernetes", "AWS", "Terraform", "CI/CD"],
+        "description": "Looking for a DevOps Engineer to help scale our cloud infrastructure and improve our deployment processes.",
+        "requirements": [
+          "5+ years of DevOps experience",
+          "Strong knowledge of Kubernetes and container orchestration",
+          "Experience with major cloud providers (AWS preferred)",
+          "Infrastructure as Code experience (Terraform)",
+          "Strong scripting skills (Python, Bash)"
+        ],
+        "benefits": [
+          "Competitive salary",
+          "Stock options",
+          "Remote work setup",
+          "Conference budget",
+          "Certification support"
+        ],
+        "postedDate": "2024-03-08T14:20:00Z",
+        "applicationDeadline": "2024-04-08T23:59:59Z",
+        "status": "active"
+      },
+      {
+        "id": "job-005",
+        "title": "Data Scientist",
+        "company": {
+          "id": "comp-005",
+          "name": "AI Innovations Ltd",
+          "logo": "/api/placeholder/48/48",
+          "location": "Remote (US/Canada)",
+          "employeeCount": "50-100",
+          "industry": "Artificial Intelligence"
+        },
+        "type": "Full-time",
+        "mode": "Remote",
+        "level": "Mid-Senior",
+        "salary": {
+          "min": 115000,
+          "max": 145000,
+          "currency": "USD",
+          "period": "yearly"
+        },
+        "tags": ["Python", "Machine Learning", "TensorFlow", "SQL"],
+        "description": "Join our AI team to develop and implement machine learning solutions for real-world problems.",
+        "requirements": [
+          "MS/PhD in Computer Science, Statistics, or related field",
+          "3+ years experience in applied machine learning",
+          "Strong Python programming skills",
+          "Experience with ML frameworks (TensorFlow, PyTorch)",
+          "Background in natural language processing"
+        ],
+        "benefits": [
+          "Competitive compensation",
+          "Health and dental",
+          "401(k) with matching",
+          "Flexible hours",
+          "Learning stipend"
+        ],
+        "postedDate": "2024-03-14T11:45:00Z",
+        "applicationDeadline": "2024-04-14T23:59:59Z",
+        "status": "active"
+      }
+    ],
+    "categories": [
+      {
+        "id": "cat-001",
+        "name": "Frontend Development",
+        "count": 156,
+        "tags": ["React", "Vue", "Angular", "JavaScript"]
+      },
+      {
+        "id": "cat-002",
+        "name": "Backend Development",
+        "count": 142,
+        "tags": ["Node.js", "Python", "Java", "Go"]
+      },
+      {
+        "id": "cat-003",
+        "name": "Full Stack",
+        "count": 89,
+        "tags": ["JavaScript", "Python", "React", "Node.js"]
+      },
+      {
+        "id": "cat-004",
+        "name": "DevOps",
+        "count": 73,
+        "tags": ["AWS", "Docker", "Kubernetes", "CI/CD"]
+      },
+      {
+        "id": "cat-005",
+        "name": "UI/UX Design",
+        "count": 65,
+        "tags": ["Figma", "UI Design", "UX Research", "Prototyping"]
+      }
+    ],
+    "metadata": {
+      "totalJobs": 525,
+      "activeJobs": 482,
+      "companies": 234,
+      "lastUpdated": "2024-03-15T12:00:00Z"
+    }
+  }
