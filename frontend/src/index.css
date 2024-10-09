@@ -1,0 +1,5 @@
+/* Root CSS File */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
