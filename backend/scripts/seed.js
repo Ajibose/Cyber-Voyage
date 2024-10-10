@@ -1,5 +1,5 @@
-const axios = require('axios');
-const cherio = require('cherio');
+import axios from 'axios';
+import cherio from 'cherio';
 
 axios.get('https://remotive.com/api/remote-jobs?limit=1')
 .then(response => {

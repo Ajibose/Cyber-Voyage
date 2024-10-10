@@ -38,6 +38,15 @@ class BaseModel {
             throw new Error('Failed to create document');
         }
     }
+    
+    async findAll() {
+        try {
+            return await this.model.find();
+        } catch (error) {
+            console.error('Error fetching documents:', error);
+            throw new Error('Failed to fetch documents');
+        }
+    }
 
     sanitiseData(data) {
         delete data['_id'];
