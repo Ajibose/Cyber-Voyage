@@ -9,7 +9,7 @@ class APIResponse {
       });
     }
   
-    static error(res: Response, message = 'Something went wrong', statusCode = 400) {
+    static error(res, message = 'Something went wrong', statusCode = 400) {
       const response = {
         status: 'error',
         message
