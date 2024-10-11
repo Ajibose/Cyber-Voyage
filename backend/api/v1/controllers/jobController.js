@@ -1,3 +1,4 @@
+import APIResponse from '../../../utils/APIResponse.js';
 import JobManagerService from '../services/jobManager.js';
 import JobService from '../services/jobService.js';
 
@@ -20,10 +21,27 @@ class JobController {
     static async getAllJobs(req, res) {
       try {
         const jobs = await JobService.fetchJobs();
-        res.status(200).json({ jobs });
+        const sanitizedJobs = jobs.map(JobController.sanitizeJobData);
+        APIResponse.success(res, "Jobs retrieved successsfully", sanitizedJobs);
       } catch (error) {
-        res.status(500).json({ message: 'Failed to fetch jobs' });
+        APIResponse.error(res, 'Failed to fetch jobs', 500);
       }
+    }
+
+    // Sanitize the job data before giving it to the client
+    static sanitizeJobData(job) {
+      return {
+        title: job.title,
+        company: job.company,
+        category: job.category,
+        salary: job.salary,
+        location: job.location,
+        url: job.jobUrl,
+        jobType: job.jobType,
+        publishedAt: job.publishedAt,
+        description: job.description,
+        experience: job.experience,
+      };
     }
 }
 

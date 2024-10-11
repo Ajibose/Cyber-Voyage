@@ -17,6 +17,10 @@ class JobManagerService {
       
       for (const job of allJobs) {
         console.log('Saving job:', job);
+        job.publishedAt = job.published_at;
+        job.jonUrl = job.url;
+        delete job.url;
+        delete job.published_at;
         await this.jobModel.create(job);
       }
     } catch (error) {

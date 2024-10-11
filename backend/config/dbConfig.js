@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 class MongoConnection {
     constructor() {
-        this.dbUrl = "mongodb://localhost:27017/cyber-voyage";
+        this.dbUrl = "mongodb+srv://ibrahim:ibra12aji@cluster0.430wd.mongodb.net/cyber-voyage?retryWrites=true&w=majority&appName=Cluster0";
         this.connect();
     }
 

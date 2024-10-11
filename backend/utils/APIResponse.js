@@ -1,5 +1,3 @@
-import { Response } from 'express';
-
 class APIResponse {
     static success(res, message = 'Request successful', data) {
       return res.status(200).json({

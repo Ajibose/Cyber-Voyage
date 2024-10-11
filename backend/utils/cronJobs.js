@@ -5,7 +5,7 @@ import JobManagerService from '../api/v1/services/jobManager.js';
 const jobManagerService = new JobManagerService();
 
 // Schedule a cron job to fetch jobs from APIs every 3 hours
-cron.schedule('0 */3 * * *', async () => {
+cron.schedule('*/30 * * * * *', async () => {
   console.log('Fetching jobs from APIs...');
   try {
     await jobManagerService.fetchAndSaveJobsFromAllSources();

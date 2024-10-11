@@ -33,6 +33,13 @@ class JobModel extends BaseModel {
                 type: String,
                 required: true
             },
+            jobUrl: {
+                type: String,
+                required: true
+            },
+            publishedAt: {
+                type: Date,
+            },
             experience: {
                 type: String,
             },
