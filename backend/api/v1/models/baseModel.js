@@ -28,6 +28,10 @@ class BaseModel {
     }
 
     async create(data) {
+        if (!data || typeof data !== 'object') {
+            throw new Error('Invalid data provided for creating the document');
+        }
+
         data = this.sanitiseData(data);
 
         try {
@@ -45,6 +49,23 @@ class BaseModel {
         } catch (error) {
             console.error('Error fetching documents:', error);
             throw new Error('Failed to fetch documents');
+        }
+    }
+
+    async findById(id) {
+        if (!id) {
+            throw new Error('Id is required to find the item');
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return null;
+        }
+
+        try {
+            return await this.model.findById(id);
+        } catch (error) {
+            console.error('Error fetching document by ID:', error);
+            throw new Error('Failed to fetch document');
         }
     }
 

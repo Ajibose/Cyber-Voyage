@@ -43,6 +43,10 @@ class JobModel extends BaseModel {
             experience: {
                 type: String,
             },
+            embedding: { 
+                type: [Number],
+                default: []
+            },
         };
         super('job', schemaDefinition);
     }

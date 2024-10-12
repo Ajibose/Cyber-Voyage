@@ -1,6 +1,8 @@
 // services/jobManagerService.js
 import RemotiveFetcherService from './remotiveFetcherService.js';
 import jobModel from '../models/jobModel.js';
+import EmbeddingService from './embeddingService.js';
+import cherio from 'cherio';
 
 class JobManagerService {
   constructor() {
@@ -21,6 +23,8 @@ class JobManagerService {
         job.jonUrl = job.url;
         delete job.url;
         delete job.published_at;
+        const jobEmbedding = await EmbeddingService.generateEmbedding(`${job.title} ${job.category} ${job.jobType} ${cherio.load(job.description).text()}`);
+        job.embedding = jobEmbedding;
         await this.jobModel.create(job);
       }
     } catch (error) {
