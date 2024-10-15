@@ -40,7 +40,7 @@ const parseAndFormatSalary = (salaryString: string): string => {
   return `$${min.toLocaleString()} - $${max.toLocaleString()} per ${period || 'hour'}`;
 };
 
-const AdaptedJobCard: React.FC<AdaptedJobCardProps> = ({ job, link = "/" }) => {
+const AdaptedJobCard: React.FC<AdaptedJobCardProps> = ({ job }) => {
   const { 
     title, 
     company, 
@@ -109,7 +109,7 @@ const AdaptedJobCard: React.FC<AdaptedJobCardProps> = ({ job, link = "/" }) => {
             </span>
           </div>
           <Link 
-            to={link} 
+            to={job.url} 
             className="btn btn-secondary btn-sm hover:scale-105 transition-transform"
           >
             Apply Now

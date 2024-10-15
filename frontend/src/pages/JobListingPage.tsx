@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Filter } from 'lucide-react';
 import { fetchAllJobs } from '../hooks/jobs/fetchAllJobs';
@@ -42,11 +42,11 @@ const JobListingPage: React.FC = () => {
   useEffect(() => {
     if (data?.data) {
       const searchQuery = searchParams.get('search')?.toLowerCase() || '';
-      
+
       const filtered = (data.data as Job[]).filter((job: Job) => {
         if (!job) return false;
-        
-        const matchesSearch = !searchQuery || 
+
+        const matchesSearch = !searchQuery ||
           job.title.toLowerCase().includes(searchQuery) ||
           job.company.toLowerCase().includes(searchQuery) ||
           job.category.toLowerCase().includes(searchQuery);
@@ -90,7 +90,7 @@ const JobListingPage: React.FC = () => {
         <h1 className="text-2xl font-heading font-bold text-secondary">
           {filteredJobs.length} Jobs Found
         </h1>
-        <button 
+        <button
           className="btn btn-ghost lg:hidden"
           onClick={() => setIsFilterOpen(!isFilterOpen)}
         >
@@ -105,7 +105,7 @@ const JobListingPage: React.FC = () => {
           <div className="bg-white rounded-xl shadow-memo p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="font-heading font-semibold text-secondary">Filters</h2>
-              <button 
+              <button
                 className="text-neutral-400 hover:text-secondary"
                 onClick={clearFilters}
               >
@@ -117,21 +117,21 @@ const JobListingPage: React.FC = () => {
               title="Job Type"
               options={jobTypes}
               selected={filters.jobType}
-              onChange={(selected) => setFilters(prev => ({...prev, jobType: selected}))}
+              onChange={(selected) => setFilters(prev => ({ ...prev, jobType: selected }))}
             />
 
             <FilterSection
               title="Category"
               options={categories}
               selected={filters.category}
-              onChange={(selected) => setFilters(prev => ({...prev, category: selected}))}
+              onChange={(selected) => setFilters(prev => ({ ...prev, category: selected }))}
             />
 
             <FilterSection
               title="Location"
               options={locations}
               selected={filters.location}
-              onChange={(selected) => setFilters(prev => ({...prev, location: selected}))}
+              onChange={(selected) => setFilters(prev => ({ ...prev, location: selected }))}
             />
           </div>
         </div>
@@ -141,17 +141,19 @@ const JobListingPage: React.FC = () => {
           {filteredJobs.length > 0 ? (
             <div className="grid gap-6">
               {filteredJobs.map((job) => (
-                <AdaptedJobCard
-                  key={job.id}
-                  job={job}
-                  link={`/jobs/${job.id}`}
-                />
+                <Link to={`/jobs/${job.id}`}>
+                  <AdaptedJobCard
+                    key={job.id}
+                    job={job}
+                    link={`/jobs/${job.id}`}
+                  />
+                </Link>
               ))}
             </div>
           ) : (
             <div className="text-center py-12 bg-white rounded-xl shadow-memo">
               <p className="text-neutral">No jobs found matching your criteria.</p>
-              <button 
+              <button
                 className="btn btn-ghost mt-4"
                 onClick={clearFilters}
               >
@@ -172,10 +174,10 @@ interface FilterSectionProps {
   onChange: (selected: string[]) => void;
 }
 
-const FilterSection: React.FC<FilterSectionProps> = ({ 
-  title, 
-  options, 
-  selected, 
+const FilterSection: React.FC<FilterSectionProps> = ({
+  title,
+  options,
+  selected,
   onChange
 }) => {
   return (

@@ -6,7 +6,7 @@ import { Job } from '../types/types';
 
 
 const fetchJob = async (id: string) => {
-  const { data } = await axios.get(`http://localhost/api/v1/jobs/${id}`);
+  const { data } = await axios.get(`http://localhost:3000/api/v1/jobs/${id}`);
   return data;
 };
 
