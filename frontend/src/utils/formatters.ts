@@ -1,24 +1,31 @@
-import { Salary } from "../types/types";
+// const parseSalary = (salaryString: string): string => {
+//   if (!salaryString || typeof salaryString !== 'string') {
+//     return "Salary not provided";
+//   }
+  
+//   const [range, period] = salaryString.split('/');
+  
+//   if (!range) {
+//     return "Salary not provided";
+//   }
+  
+//   const [min, max] = range.replace(/\$/g, '').split('-').map(s => parseInt(s.trim(), 10));
+  
+//   if (isNaN(min) || isNaN(max)) {
+//     return salaryString; // Return the original string if parsing fails
+//   }
 
-export const formatSalary = (salary: Salary): string => {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: salary.currency,
-    maximumFractionDigits: 0
-  });
+//   return `$${min.toLocaleString()} - $${max.toLocaleString()} per ${period ? period : 'year'}`;
+// };
 
-  return `${formatter.format(salary.min)} - ${formatter.format(salary.max)} ${salary.period}`;
-};
 
-export const formatDate = (dateString: string): string => {
+export const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   const now = new Date();
-  const diffTime = Math.abs(now.getTime() - date.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  if (diffDays === 1) return 'yesterday';
-  if (diffDays < 7) return `${diffDays} days ago`;
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
-  return `${Math.floor(diffDays / 365)} years ago`;
+  
+  const timeDiff = Math.abs(now.getTime() - date.getTime());
+  const diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); 
+  
+  return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
 };
+

@@ -1,9 +1,31 @@
 import { Briefcase, MapPin, ArrowRight } from 'lucide-react';
-import jobsData from '../data/jobs.json';
+// import jobsData from '../data/jobs.json';
 import JobCard from '../components/homepage/JobCard';
 import SearchBar from '../components/homepage/SearchBar';
+import { useQuery } from '@tanstack/react-query';
+import { fetchAllJobs } from '../hooks/jobs/fetchAllJobs';
+import AdaptedJobCard from '../components/homepage/JobCard';
+
 
 const HomePage = () => {
+
+  const { data, isFetching, error } = useQuery({
+    queryKey: ["jobs"],
+    queryFn: fetchAllJobs
+  })
+
+  if(isFetching) {
+    return <h1>Loading...</h1>
+  }
+
+  if(error) {
+    return <h1>{error.message} Error loading data</h1>
+  }
+
+  const jobs = data?.data
+
+  console.log("Jobs", jobs)
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-base-100 to-white">
       {/* Hero Section */}
@@ -69,8 +91,8 @@ const HomePage = () => {
 
         {/* Job Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {jobsData.jobs.map((job) => (
-        <JobCard
+      {jobs?.slice(12,18).map((job) => (
+        <AdaptedJobCard
           key={job.id}
           job={job}
           link={`/jobs/${job.id}`}
