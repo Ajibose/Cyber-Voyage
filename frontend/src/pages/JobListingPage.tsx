@@ -5,6 +5,8 @@ import { Filter } from 'lucide-react';
 import { fetchAllJobs } from '../hooks/jobs/fetchAllJobs';
 import AdaptedJobCard from '../components/homepage/JobCard';
 import { JobsApiResponse } from '../types/types';
+import Loader from '../components/common/Loader';
+import SearchBar from '../components/homepage/SearchBar';
 
 interface Job {
   id: string;
@@ -21,7 +23,6 @@ interface Job {
 interface FilterState {
   jobType: string[];
   category: string[];
-  location: string[];
 }
 
 const JobListingPage: React.FC = () => {
@@ -30,8 +31,7 @@ const JobListingPage: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     jobType: [],
-    category: [],
-    location: []
+    category: []
   });
 
   const { data, isFetching, error } = useQuery<JobsApiResponse>({
@@ -53,9 +53,8 @@ const JobListingPage: React.FC = () => {
 
         const matchesType = filters.jobType.length === 0 || filters.jobType.includes(job.jobType.toLowerCase());
         const matchesCategory = filters.category.length === 0 || filters.category.includes(job.category);
-        const matchesLocation = filters.location.length === 0 || filters.location.includes(job.location);
 
-        return matchesSearch && matchesType && matchesCategory && matchesLocation;
+        return matchesSearch && matchesType && matchesCategory;
       });
 
       setFilteredJobs(filtered);
@@ -65,13 +64,12 @@ const JobListingPage: React.FC = () => {
   const clearFilters = () => {
     setFilters({
       jobType: [],
-      category: [],
-      location: []
+      category: []
     });
   };
 
   if (isFetching) {
-    return <div className="container mx-auto px-4 py-8"><h1>Loading...</h1></div>;
+    return <Loader />
   }
 
   if (error) {
@@ -82,10 +80,12 @@ const JobListingPage: React.FC = () => {
 
   const jobTypes = Array.from(new Set(allJobs.map(job => job.jobType)));
   const categories = Array.from(new Set(allJobs.map(job => job.category)));
-  const locations = Array.from(new Set(allJobs.map(job => job.location)));
 
   return (
     <div className="container mx-auto px-4 py-8">
+     <div className="container mb-4">
+     <SearchBar />
+     </div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-heading font-bold text-secondary">
           {filteredJobs.length} Jobs Found
@@ -126,13 +126,6 @@ const JobListingPage: React.FC = () => {
               selected={filters.category}
               onChange={(selected) => setFilters(prev => ({ ...prev, category: selected }))}
             />
-
-            <FilterSection
-              title="Location"
-              options={locations}
-              selected={filters.location}
-              onChange={(selected) => setFilters(prev => ({ ...prev, location: selected }))}
-            />
           </div>
         </div>
 
@@ -141,9 +134,8 @@ const JobListingPage: React.FC = () => {
           {filteredJobs.length > 0 ? (
             <div className="grid gap-6">
               {filteredJobs.map((job) => (
-                <Link to={`/jobs/${job.id}`}>
+                <Link to={`/jobs/${job.id}`} key={job.id}>
                   <AdaptedJobCard
-                    key={job.id}
                     job={job}
                     link={`/jobs/${job.id}`}
                   />

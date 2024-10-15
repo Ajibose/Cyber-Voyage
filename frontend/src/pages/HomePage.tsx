@@ -5,17 +5,19 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchAllJobs } from '../hooks/jobs/fetchAllJobs';
 import AdaptedJobCard from '../components/homepage/JobCard';
 import { Link } from 'react-router-dom';
-
+import Loader from '../components/common/Loader';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
 
+  const navigate = useNavigate();
   const { data, isFetching, error } = useQuery({
     queryKey: ["jobs"],
     queryFn: fetchAllJobs
   })
 
   if (isFetching) {
-    return <h1>Loading...</h1>
+    return <Loader />
   }
 
   if (error) {
@@ -84,7 +86,9 @@ const HomePage = () => {
           <h2 className="font-heading text-3xl font-bold text-secondary">
             Featured Jobs
           </h2>
-          <button className="btn btn-ghost text-accent">
+          <button 
+          onClick={() => navigate("/jobs")}
+          className="btn btn-ghost text-accent">
             View all jobs <ArrowRight className="w-4 h-4 ml-2" />
           </button>
         </div>
