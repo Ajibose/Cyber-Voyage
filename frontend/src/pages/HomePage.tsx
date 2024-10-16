@@ -1,5 +1,4 @@
-import { Briefcase, MapPin, ArrowRight, Search } from 'lucide-react';
-// import jobsData from '../data/jobs.json';
+import { Briefcase, MapPin, ArrowRight } from 'lucide-react'; //Add Search Icon when you uncomment the seach bar
 import SearchBar from '../components/homepage/SearchBar';
 import { useQuery } from '@tanstack/react-query';
 import { fetchAllJobs } from '../hooks/jobs/fetchAllJobs';
@@ -7,6 +6,7 @@ import AdaptedJobCard from '../components/homepage/JobCard';
 import { Link } from 'react-router-dom';
 import Loader from '../components/common/Loader';
 import { useNavigate } from 'react-router-dom';
+import AISearchBar from '../components/homepage/AISearchBar';
 
 const HomePage = () => {
 
@@ -43,7 +43,7 @@ const HomePage = () => {
           </p>
 
           {/* Search Bar */}
-          <div className="bg-white p-4 rounded-xl shadow-memo max-w-3xl mx-auto flex flex-col md:flex-row gap-4">
+          {/* <div className="bg-white p-4 rounded-xl shadow-memo max-w-3xl mx-auto flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-3 text-neutral-400" />
               <input 
@@ -55,9 +55,12 @@ const HomePage = () => {
             <button className="btn btn-secondary">
               Search Jobs
             </button>
-          </div>
+          </div> */}
 
           <SearchBar />
+          <div className="container p-2 mt-2">
+            <AISearchBar />
+          </div>
 
           {/* Quick Stats */}
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -86,9 +89,9 @@ const HomePage = () => {
           <h2 className="font-heading text-3xl font-bold text-secondary">
             Featured Jobs
           </h2>
-          <button 
-          onClick={() => navigate("/jobs")}
-          className="btn btn-ghost text-accent">
+          <button
+            onClick={() => navigate("/jobs")}
+            className="btn btn-ghost text-accent">
             View all jobs <ArrowRight className="w-4 h-4 ml-2" />
           </button>
         </div>
