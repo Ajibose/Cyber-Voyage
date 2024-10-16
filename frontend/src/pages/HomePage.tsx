@@ -1,4 +1,4 @@
-import { Briefcase, MapPin, ArrowRight } from 'lucide-react';
+import { Briefcase, MapPin, ArrowRight, Search } from 'lucide-react';
 // import jobsData from '../data/jobs.json';
 import SearchBar from '../components/homepage/SearchBar';
 import { useQuery } from '@tanstack/react-query';
@@ -43,7 +43,7 @@ const HomePage = () => {
           </p>
 
           {/* Search Bar */}
-          {/* <div className="bg-white p-4 rounded-xl shadow-memo max-w-3xl mx-auto flex flex-col md:flex-row gap-4">
+          <div className="bg-white p-4 rounded-xl shadow-memo max-w-3xl mx-auto flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-3 text-neutral-400" />
               <input 
@@ -55,7 +55,7 @@ const HomePage = () => {
             <button className="btn btn-secondary">
               Search Jobs
             </button>
-          </div> */}
+          </div>
 
           <SearchBar />
 
