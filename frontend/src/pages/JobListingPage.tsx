@@ -102,6 +102,7 @@ const JobListingPage: React.FC = () => {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Filters Sidebar */}
         <div className={`lg:w-1/4 ${isFilterOpen ? 'block' : 'hidden lg:block'}`}>
+          <div className="sticky top-20 max-h-[calc(100vh-8rem)] overflow-y-auto">
           <div className="bg-white rounded-xl shadow-memo p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="font-heading font-semibold text-secondary">Filters</h2>
@@ -127,12 +128,13 @@ const JobListingPage: React.FC = () => {
               onChange={(selected) => setFilters(prev => ({ ...prev, category: selected }))}
             />
           </div>
+          </div>
         </div>
 
         {/* Job Cards */}
         <div className="lg:w-3/4">
           {filteredJobs.length > 0 ? (
-            <div className="grid gap-6">
+            <div className="flex flex-wrap gap-5">
               {filteredJobs.map((job) => (
                 <Link to={`/jobs/${job.id}`} key={job.id}>
                   <AdaptedJobCard
