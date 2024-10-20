@@ -111,19 +111,19 @@ export default {
         },
       },
       // Dark theme variant
-      {
-        memoAppDark: {
-          "primary": "#020381",
-          "secondary": "#FFFFFF",
-          "accent": "#4255FF",
-          "neutral": "#1F2937",
-          "base-100": "#111827",
-          "info": "#21618C",
-          "success": "#27AE60",
-          "warning": "#F39C12",
-          "error": "#C0392B",
-        },
-      }
+      // {
+      //   memoAppDark: {
+      //     "primary": "#020381",
+      //     "secondary": "#FFFFFF",
+      //     "accent": "#4255FF",
+      //     "neutral": "#1F2937",
+      //     "base-100": "#111827",
+      //     "info": "#21618C",
+      //     "success": "#27AE60",
+      //     "warning": "#F39C12",
+      //     "error": "#C0392B",
+      //   },
+      // }
     ],
     darkTheme: "memoAppDark",
     base: true,

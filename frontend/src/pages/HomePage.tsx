@@ -1,19 +1,43 @@
-import { Briefcase, MapPin, ArrowRight } from 'lucide-react';
-import jobsData from '../data/jobs.json';
-import JobCard from '../components/homepage/JobCard';
+import { Briefcase, MapPin, ArrowRight } from 'lucide-react'; //Add Search Icon when you uncomment the seach bar
 import SearchBar from '../components/homepage/SearchBar';
+import { useQuery } from '@tanstack/react-query';
+import { fetchAllJobs } from '../hooks/jobs/fetchAllJobs';
+import AdaptedJobCard from '../components/homepage/JobCard';
+import { Link } from 'react-router-dom';
+import Loader from '../components/common/Loader';
+import { useNavigate } from 'react-router-dom';
+import AISearchBar from '../components/homepage/AISearchBar';
 
 const HomePage = () => {
+
+  const navigate = useNavigate();
+  const { data, isFetching, error } = useQuery({
+    queryKey: ["jobs"],
+    queryFn: fetchAllJobs
+  })
+
+  if (isFetching) {
+    return <Loader />
+  }
+
+  if (error) {
+    return <h1>{error.message} Error loading data</h1>
+  }
+
+  const jobs = data?.data
+
+  console.log("Jobs", jobs)
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-base-100 to-white">
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16 md:py-24">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="font-heading text-4xl md:text-6xl font-bold text-secondary mb-6 leading-tight">
-            Find Your Next Remote 
+            Find Your Next Remote
             <span className="text-accent"> Tech Career</span>
           </h1>
-          
+
           <p className="font-sans text-lg md:text-xl text-neutral mb-8 max-w-2xl mx-auto">
             Connect with top companies hiring remote tech talent. Your dream job awaits – no boundaries, no limits.
           </p>
@@ -34,6 +58,9 @@ const HomePage = () => {
           </div> */}
 
           <SearchBar />
+          <div className="container p-2 mt-2">
+            <AISearchBar />
+          </div>
 
           {/* Quick Stats */}
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -62,25 +89,31 @@ const HomePage = () => {
           <h2 className="font-heading text-3xl font-bold text-secondary">
             Featured Jobs
           </h2>
-          <button className="btn btn-ghost text-accent">
+          <button
+            onClick={() => navigate("/jobs")}
+            className="btn btn-ghost text-accent">
             View all jobs <ArrowRight className="w-4 h-4 ml-2" />
           </button>
         </div>
 
         {/* Job Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {jobsData.jobs.map((job) => (
-        <JobCard
-          key={job.id}
-          job={job}
-          link={`/jobs/${job.id}`}
-        />
-      ))}
-    </div>
+          {jobs?.slice(12, 18).map((job) => (
+            <Link
+              to={`/jobs/${job.id}`}
+              key={job.id}
+            >
+              <AdaptedJobCard
+                job={job}
+                link={`/jobs/${job.id}`}
+              />
+            </Link>
+          ))}
+        </div>
       </div>
 
       {/* Categories Section */}
-      <div className="container mx-auto px-4 py-16 bg-base-100">
+      {/* <div className="container mx-auto px-4 py-16 bg-base-100">
         <h2 className="font-heading text-3xl font-bold text-secondary mb-8 text-center">
           Popular Categories
         </h2>
@@ -95,7 +128,7 @@ const HomePage = () => {
             </button>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -118,16 +151,16 @@ const HomePage = () => {
 //             className="w-12 h-12 rounded-full"
 //           />
 //         </div>
-        
+
 //         <p className="text-neutral mt-4">
 //           Join our team to build innovative web applications using modern technologies.
 //         </p>
-        
+
 //         <div className="flex gap-2 mt-4">
 //           <span className="badge badge-outline">React</span>
 //           <span className="badge badge-outline">TypeScript</span>
 //         </div>
-        
+
 //         <div className="card-actions justify-between items-center mt-6">
 //           <span className="text-accent font-heading font-semibold">
 //             $120k - $150k

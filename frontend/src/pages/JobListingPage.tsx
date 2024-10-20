@@ -1,63 +1,96 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Job } from '../types/types';
-import JobCard from '../components/homepage/JobCard';
-import jobsData from '../data/jobs.json';
+import React, { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { Filter } from 'lucide-react';
+import { fetchAllJobs } from '../hooks/jobs/fetchAllJobs';
+import AdaptedJobCard from '../components/homepage/JobCard';
+import { JobsApiResponse } from '../types/types';
+import Loader from '../components/common/Loader';
+import SearchBar from '../components/homepage/SearchBar';
+
+interface Job {
+  id: string;
+  title: string;
+  company: string;
+  category: string;
+  salary: string;
+  location: string;
+  jobType: string;
+  url: string;
+  description: string;
+}
 
 interface FilterState {
   jobType: string[];
-  experience: string[];
-  salary: string[];
-  location: string[];
+  category: string[];
 }
 
-const JobListingPage = () => {
+const JobListingPage: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const [jobs, setJobs] = useState<Job[]>([]);
+  const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     jobType: [],
-    experience: [],
-    salary: [],
-    location: []
+    category: []
   });
 
-  // Filter the jobs based on search query and filters
+  const { data, isFetching, error } = useQuery<JobsApiResponse>({
+    queryKey: ["jobs"],
+    queryFn: fetchAllJobs
+  });
+
   useEffect(() => {
-    const searchQuery = searchParams.get('search')?.toLowerCase() || '';
-    
-    const filteredJobs = jobsData.jobs.filter(job => {
-      // Search query matching
-      const matchesSearch = !searchQuery || 
-        job.title.toLowerCase().includes(searchQuery) ||
-        job.description.toLowerCase().includes(searchQuery) ||
-        job.tags.some(tag => tag.toLowerCase().includes(searchQuery));
+    if (data?.data) {
+      const searchQuery = searchParams.get('search')?.toLowerCase() || '';
 
-      // Filter matching
-      const matchesType = filters.jobType.length === 0 || filters.jobType.includes(job.type);
-      const matchesExperience = filters.experience.length === 0 || filters.experience.includes(job.level);
-      const matchesSalary = filters.salary.length === 0 || 
-        filters.salary.some(range => {
-          const [min, max] = range.split('-').map(Number);
-          return job.salary.min >= min && job.salary.max <= max;
-        });
-      const matchesLocation = filters.location.length === 0 || 
-        filters.location.includes(job.company.location);
+      const filtered = (data.data as Job[]).filter((job: Job) => {
+        if (!job) return false;
 
-      return matchesSearch && matchesType && matchesExperience && matchesSalary && matchesLocation;
+        const matchesSearch = !searchQuery ||
+          job.title.toLowerCase().includes(searchQuery) ||
+          job.company.toLowerCase().includes(searchQuery) ||
+          job.category.toLowerCase().includes(searchQuery);
+
+        const matchesType = filters.jobType.length === 0 || filters.jobType.includes(job.jobType.toLowerCase());
+        const matchesCategory = filters.category.length === 0 || filters.category.includes(job.category);
+
+        return matchesSearch && matchesType && matchesCategory;
+      });
+
+      setFilteredJobs(filtered);
+    }
+  }, [searchParams, filters, data]);
+
+  const clearFilters = () => {
+    setFilters({
+      jobType: [],
+      category: []
     });
+  };
 
-    setJobs(filteredJobs);
-  }, [searchParams, filters]);
+  if (isFetching) {
+    return <Loader />
+  }
+
+  if (error) {
+    return <div className="container mx-auto px-4 py-8"><h1>Error: {(error as Error).message}</h1></div>;
+  }
+
+  const allJobs = data?.data as Job[] || [];
+
+  const jobTypes = Array.from(new Set(allJobs.map(job => job.jobType)));
+  const categories = Array.from(new Set(allJobs.map(job => job.category)));
 
   return (
     <div className="container mx-auto px-4 py-8">
+     <div className="container mb-4">
+     <SearchBar />
+     </div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-heading font-bold text-secondary">
-          {jobs.length} Jobs Found
+          {filteredJobs.length} Jobs Found
         </h1>
-        <button 
+        <button
           className="btn btn-ghost lg:hidden"
           onClick={() => setIsFilterOpen(!isFilterOpen)}
         >
@@ -69,86 +102,54 @@ const JobListingPage = () => {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Filters Sidebar */}
         <div className={`lg:w-1/4 ${isFilterOpen ? 'block' : 'hidden lg:block'}`}>
+          <div className="sticky top-20 max-h-[calc(100vh-8rem)] overflow-y-auto">
           <div className="bg-white rounded-xl shadow-memo p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="font-heading font-semibold text-secondary">Filters</h2>
-              <button 
+              <button
                 className="text-neutral-400 hover:text-secondary"
-                onClick={() => setFilters({
-                  jobType: [],
-                  experience: [],
-                  salary: [],
-                  location: []
-                })}
+                onClick={clearFilters}
               >
                 Clear all
               </button>
             </div>
 
-            {/* Job Type Filter */}
             <FilterSection
               title="Job Type"
-              options={['Full-time', 'Part-time', 'Contract']}
+              options={jobTypes}
               selected={filters.jobType}
-              onChange={(selected) => setFilters(prev => ({...prev, jobType: selected}))}
+              onChange={(selected) => setFilters(prev => ({ ...prev, jobType: selected }))}
             />
 
-            {/* Experience Level Filter */}
             <FilterSection
-              title="Experience"
-              options={['Entry', 'Mid-level', 'Senior', 'Lead']}
-              selected={filters.experience}
-              onChange={(selected) => setFilters(prev => ({...prev, experience: selected}))}
+              title="Category"
+              options={categories}
+              selected={filters.category}
+              onChange={(selected) => setFilters(prev => ({ ...prev, category: selected }))}
             />
-
-            {/* Salary Range Filter */}
-            <FilterSection
-              title="Salary Range"
-              options={['0-50000', '50000-100000', '100000-150000', '150000+']}
-              selected={filters.salary}
-              onChange={(selected) => setFilters(prev => ({...prev, salary: selected}))}
-              formatOption={(option) => {
-                if (option === '150000+') return '$150k+'
-                const [min, max] = option.split('-');
-                return `$${parseInt(min)/1000}k - $${parseInt(max)/1000}k`
-              }}
-            />
-
-            {/* Location Filter */}
-            <FilterSection
-              title="Location"
-              options={Array.from(new Set(jobsData.jobs.map(job => job.company.location)))}
-              selected={filters.location}
-              onChange={(selected) => setFilters(prev => ({...prev, location: selected}))}
-            />
+          </div>
           </div>
         </div>
 
         {/* Job Cards */}
         <div className="lg:w-3/4">
-          {jobs.length > 0 ? (
-            <div className="grid gap-6">
-              {jobs.map((job) => (
-                <JobCard
-                  key={job.id}
-                  job={job}
-                  link={`/jobs/${job.id}`}
-                />
+          {filteredJobs.length > 0 ? (
+            <div className="flex flex-wrap gap-5">
+              {filteredJobs.map((job) => (
+                <Link to={`/jobs/${job.id}`} key={job.id}>
+                  <AdaptedJobCard
+                    job={job}
+                    link={`/jobs/${job.id}`}
+                  />
+                </Link>
               ))}
             </div>
           ) : (
             <div className="text-center py-12 bg-white rounded-xl shadow-memo">
               <p className="text-neutral">No jobs found matching your criteria.</p>
-              <button 
+              <button
                 className="btn btn-ghost mt-4"
-                onClick={() => {
-                  setFilters({
-                    jobType: [],
-                    experience: [],
-                    salary: [],
-                    location: []
-                  });
-                }}
+                onClick={clearFilters}
               >
                 Clear filters
               </button>
@@ -160,22 +161,19 @@ const JobListingPage = () => {
   );
 };
 
-// Filter Section Component
 interface FilterSectionProps {
   title: string;
   options: string[];
   selected: string[];
   onChange: (selected: string[]) => void;
-  formatOption?: (option: string) => string;
 }
 
-const FilterSection = ({ 
-  title, 
-  options, 
-  selected, 
-  onChange,
-  formatOption = (opt) => opt 
-}: FilterSectionProps) => {
+const FilterSection: React.FC<FilterSectionProps> = ({
+  title,
+  options,
+  selected,
+  onChange
+}) => {
   return (
     <div className="mb-6">
       <h3 className="font-medium text-secondary mb-3">{title}</h3>
@@ -194,7 +192,7 @@ const FilterSection = ({
                 }
               }}
             />
-            <span className="text-neutral">{formatOption(option)}</span>
+            <span className="text-neutral">{option}</span>
           </label>
         ))}
       </div>

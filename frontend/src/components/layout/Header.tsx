@@ -1,9 +1,29 @@
+import { useState, useEffect } from 'react';
+
 const Header = () => {
+    const [isSticky, setIsSticky] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 0) {
+                setIsSticky(true);
+            } else {
+                setIsSticky(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
-        <>
-            <div className="navbar bg-base-100 fixed">
+        <header className={`navbar bg-base-100 transition-all duration-300 ${isSticky ? 'fixed top-0 left-0 right-0 shadow-md z-50' : ''}`}>
+            <div className="container mx-auto">
                 <div className="flex-1">
-                    <a className="btn btn-ghost text-xl font-heading">Cyber Voyage</a>
+                    <a className="btn btn-ghost text-xl font-heading" href='/'>Cyber Voyage</a>
                 </div>
                 <div className="flex-none">
                     <button className="btn btn-square btn-ghost">
@@ -21,8 +41,8 @@ const Header = () => {
                     </button>
                 </div>
             </div>
-        </>
-    )
-}
+        </header>
+    );
+};
 
-export default Header
+export default Header;
