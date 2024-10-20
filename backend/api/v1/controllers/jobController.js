@@ -56,7 +56,7 @@ class JobController {
         res.status(201).json(sanitizedResult);
     } catch (error) {
         console.log("Semantic search error", error)
-        APIResponse.error(res, 'Failed to search for products', 500);
+        APIResponse.error(res, error.message, 500,);
     }
   }
 
