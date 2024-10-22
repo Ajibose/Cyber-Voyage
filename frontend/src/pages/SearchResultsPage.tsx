@@ -1,14 +1,21 @@
-// pages/SearchResultsPage.tsx
-
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, Navigate } from 'react-router-dom';
 import { ArrowLeft, Bot, Sparkles, BrainCircuit } from 'lucide-react';
 import JobCard from '../components/homepage/JobCard';
 import { Job } from '../types/types';
 
 const SearchResultsPage: React.FC = () => {
   const location = useLocation();
-  const { results, query } = location.state as { results: Job[], query: string };
+  
+  // Add default values and type checking
+  const { results = [], query = '' } = (location.state as { results: Job[], query: string }) || {};
+
+  // Redirect if no state is present
+  if (!location.state) {
+    return <Navigate to="/" replace />;
+  }
+
+  console.log('Results:', results);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -19,7 +26,7 @@ const SearchResultsPage: React.FC = () => {
         </Link>
         
         {/* AI Results Header */}
-        <div className="bg-white rounded-xl p-6 shadow-memo mb-8">
+        <div className="bg-white rounded-xl p-6 shadow-memo mb-8 sticky top-20 max-h-[calc(100vh-8rem)] z-10">
           <div className="flex items-center gap-2 mb-4">
             <Bot className="w-6 h-6 text-secondary" />
             <h1 className="font-heading text-2xl font-bold text-secondary">
@@ -31,10 +38,9 @@ const SearchResultsPage: React.FC = () => {
           <div className="flex items-center gap-2 text-neutral-600">
             <BrainCircuit className="w-5 h-5 text-accent" />
             <p className="text-lg">
-              I found {results.length} jobs matching: "{query}"
+              I found {results?.length || 0} jobs matching: "{query}"
             </p>
           </div>
-
           <div className="mt-4 p-4 bg-base-100 rounded-lg">
             <p className="text-sm text-neutral-600">
               <span className="font-semibold">AI Analysis:</span> Based on your search, 
@@ -45,7 +51,7 @@ const SearchResultsPage: React.FC = () => {
           </div>
         </div>
 
-        {results.length === 0 ? (
+        {(!results || results.length === 0) ? (
           <div className="text-center py-12 bg-white rounded-xl shadow-memo">
             <Bot className="w-12 h-12 text-neutral-400 mx-auto mb-4" />
             <h2 className="text-2xl font-semibold mb-4">No matches found</h2>
@@ -57,7 +63,7 @@ const SearchResultsPage: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex flex-wrap justify-center items-center gap-6">
             {results.map((job) => (
               <Link
                 to={`/jobs/${job.id}`}

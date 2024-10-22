@@ -3,10 +3,11 @@ import apiClient from "../api/apiClient";
 
 export const semanticSearchJobs = async (query: string, count: number = 6): Promise<any> => {
   try {
-    const response = await apiClient.get<any>(
-      `/api/v1/jobs/search`, // Updated endpoint
+    const response = await apiClient.post<any>(
+      `/jobs/search`, // Base endpoint
+      {}, // Empty body since we're using query params
       {
-        params: {
+        params: { // This moves the parameters to the URL as query params
           search: query,
           count
         }

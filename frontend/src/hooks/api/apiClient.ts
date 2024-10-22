@@ -4,6 +4,7 @@ const apiClient = axios.create({
   baseURL: ' https://cyber-voyage-production.up.railway.app/api/v1/',
   headers: {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
   },
 });
 

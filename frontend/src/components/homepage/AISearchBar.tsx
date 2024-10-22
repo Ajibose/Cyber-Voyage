@@ -22,8 +22,9 @@ const AIAssistantButton: React.FC = () => {
     try {
       const response = await semanticSearchJobs(searchQuery);
       setIsSearching(false);
-      setIsOpen(false);
-      navigate('/search-results', { state: { results: response.data, query: searchQuery } });
+      
+      //console.log('Search results:', response.data);
+     navigate('/search-results', { state: { results: response, query: searchQuery } });
     } catch (err: any) {
       setIsSearching(false);
       setError(err.response?.data?.message || 'An error occurred during the search.');

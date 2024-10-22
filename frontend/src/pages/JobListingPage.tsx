@@ -76,6 +76,7 @@ const JobListingPage: React.FC = () => {
     return <div className="container mx-auto px-4 py-8"><h1>Error: {(error as Error).message}</h1></div>;
   }
 
+
   const allJobs = data?.data as Job[] || [];
 
   const jobTypes = Array.from(new Set(allJobs.map(job => job.jobType)));
